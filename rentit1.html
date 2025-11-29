@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rent It | Student Exchange</title>
+    <!-- Use Poppins from Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+<style>
+    /* 1. Global Reset and Base Styling - Light Theme */
+    :root {
+        --primary-color: #00aaff; /* Vibrant Blue Accent */
+        --secondary-color: #3a7bd5; /* Deeper Blue */
+        --light-bg: #f5f7fa; /* Very Light Background */
+        --card-bg: #ffffff; /* Pure White Card */
+        --dark-text: #1f2937; /* Dark Grey Text */
+        --light-text: #6b7280; /* Medium Grey Text for descriptions/footer */
+        --shadow-soft: 0 4px 12px rgba(0, 0, 0, 0.08);
+        --shadow-hover: 0 8px 20px rgba(0, 170, 255, 0.2);
+    }
+    
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+        background-color: var(--light-bg);
+        color: var(--dark-text);
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding-top: 90px; /* Space for fixed navbar */
+        padding-bottom: 70px; /* Space for fixed footer */
+    }
+    
+    /* 2. Navbar Styling */
+    .navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 70px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 40px;
+        background: var(--card-bg); /* White navbar */
+        box-shadow: var(--shadow-soft);
+        z-index: 100;
+    }
+
+    .logo {
+        font-size: 28px;
+        font-weight: 900;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+    
+    .nav-links a {
+        color: var(--dark-text);
+        text-decoration: none;
+        margin-left: 30px;
+        font-weight: 500;
+        transition: color 0.2s;
+        padding: 5px 0;
+        border-bottom: 2px solid transparent;
+    }
+    
+    .nav-links a:hover {
+        color: var(--primary-color);
+        border-color: var(--primary-color);
+    }
+
+    /* 3. Hero Section and Title */
+    .hero-content {
+        text-align: center;
+        margin-bottom: 60px;
+        max-width: 900px;
+        padding: 0 20px;
+    }
+
+    h1 {
+        font-size: clamp(36px, 6vw, 64px);
+        font-weight: 900;
+        letter-spacing: 5px;
+        text-transform: uppercase;
+        margin-bottom: 15px;
+        
+        color: var(--dark-text);
+        text-shadow: 1px 1px 0 rgba(0, 170, 255, 0.1);
+    }
+
+    .subtitle {
+        font-size: clamp(16px, 3vw, 22px);
+        font-weight: 400;
+        color: var(--light-text);
+        margin-bottom: 20px;
+        line-height: 1.5;
+    }
+
+    /* 4. Card Container and Cards */
+    .box-container {
+        display: flex;
+        gap: 40px;
+        flex-wrap: wrap;
+        justify-content: center;
+        width: 100%;
+        max-width: 1000px;
+        margin-bottom: 40px;
+    }
+
+    .option-box {
+        width: 100%;
+        max-width: 400px;
+        height: 280px;
+        
+        background: var(--card-bg);
+        border: 1px solid rgba(0, 0, 0, 0.05);
+        border-radius: 20px;
+        box-shadow: var(--shadow-soft);
+        
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        
+        cursor: pointer;
+        transition: 0.3s ease-in-out;
+        
+        padding: 30px;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .option-box:hover {
+        transform: translateY(-10px);
+        border-color: var(--primary-color);
+        box-shadow: var(--shadow-hover);
+    }
+
+    /* Card Content Styling */
+    .card-icon {
+        font-size: 48px;
+        margin-bottom: 20px;
+        color: var(--primary-color);
+        transition: color 0.3s, transform 0.3s;
+    }
+    
+    .option-box:hover .card-icon {
+        color: var(--secondary-color);
+        transform: scale(1.1);
+    }
+    
+    .card-title {
+        font-size: 28px;
+        font-weight: 700;
+        letter-spacing: 1px;
+        margin-bottom: 10px;
+        color: var(--dark-text);
+    }
+
+    .card-description {
+        font-size: 14px;
+        font-weight: 300;
+        color: var(--light-text);
+    }
+
+    /* 5. Footer Styling */
+    .footer {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 50px;
+        background: var(--card-bg);
+        border-top: 1px solid rgba(0, 0, 0, 0.05);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 14px;
+        color: var(--light-text);
+        box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+    }
+    
+    .footer-text a {
+        color: var(--primary-color);
+        text-decoration: none;
+        margin-left: 5px;
+        font-weight: 500;
+    }
+
+    /* Media Queries for Responsiveness */
+    @media (min-width: 768px) {
+        .option-box {
+            width: calc(50% - 20px);
+        }
+    }
+    
+    @media (max-width: 600px) {
+        .navbar {
+            padding: 0 20px;
+        }
+        .nav-links {
+            display: none; /* Hide navigation links on small screens */
+        }
+        .hero-content {
+            margin-top: 20px;
+        }
+    }
+</style>
+
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <header class="navbar">
+        <div class="logo">RENT IT</div>
+        <nav class="nav-links">
+            <a href="#">Dashboard</a>
+            <a href="#">Profile</a>
+            <a href="#">Support</a>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <div class="hero-content">
+        <h1>RENT IT</h1>
+        <p class="subtitle">
+            Your university's dedicated hub for student resource exchange. <br>
+            Trade textbooks, electronics, and essentials effortlessly.
+        </p>
+    </div>
+
+    <!-- Main Options Container -->
+    <div class="box-container">
+        
+        <!-- Lend & Borrow Card -->
+        <div class="option-box" onclick="openPage('lend-borrow.html')">
+            <i class="fas fa-exchange-alt card-icon"></i>
+            <div class="card-title">Lend & Borrow</div>
+            <p class="card-description">Short-term sharing of textbooks, tools, and equipment. Keep track of returns easily.</p>
+        </div>
+        
+        <!-- Buy & Sell Card -->
+        <div class="option-box" onclick="openPage('buy-sell.html')">
+            <i class="fas fa-shopping-bag card-icon"></i>
+            <div class="card-title">Buy & Sell</div>
+            <p class="card-description">Permanent exchange for furniture, electronics, and long-term items. List securely.</p>
+        </div>
+        
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-text">
+            &copy; 2024 RENT IT. Built for students, by students. <a href="#">Privacy</a> | <a href="#">Terms</a>
+        </div>
+    </footer>
+
+    <!-- JavaScript to handle navigation -->
+<script>
+    /**
+     * Opens a new page by setting the window location.
+     * @param {string} page The filename or URL of the page to open.
+     */
+    function openPage(page){
+        // In a real app, you might want a smooth transition or a loading state here.
+        window.location.href = page;
+    }
+</script>
+
+</body>
+</html>

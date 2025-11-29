@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RENT IT: Marketplace - Need</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+<style>
+    /* 1. Global Reset and Base Styling - Light Theme */
+    :root {
+        --primary-color: #00aaff; /* Vibrant Blue Accent */
+        --secondary-color: #3a7bd5; /* Deeper Blue */
+        --light-bg: #f5f7fa; /* Very Light Background */
+        --card-bg: #ffffff; /* Pure White Card */
+        --dark-text: #1f2937; /* Dark Grey Text */
+        --light-text: #6b7280; /* Medium Grey Text */
+        --shadow-soft: 0 4px 12px rgba(0, 0, 0, 0.08);
+        --container-width: 1000px;
+    }
+    
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+        background-color: var(--light-bg);
+        color: var(--dark-text);
+        min-height: 100vh;
+        padding-top: 120px; /* Space for both fixed navbars (70px + 50px) */
+    }
+    
+    /* 2. Navbar Styling (Top Fixed) */
+    .navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 70px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 40px;
+        background: var(--card-bg);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* Lighter shadow */
+        z-index: 100;
+    }
+
+    .logo {
+        font-size: 28px;
+        font-weight: 900;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        cursor: pointer;
+    }
+    
+    .nav-links a {
+        color: var(--dark-text);
+        text-decoration: none;
+        margin-left: 30px;
+        font-weight: 500;
+        transition: color 0.2s;
+    }
+    
+    .nav-links a:hover {
+        color: var(--primary-color);
+    }
+
+    /* 3. Sub-Navbar Styling (Second Fixed Bar) */
+    .sub-navbar {
+        position: fixed;
+        top: 70px; /* Below the main navbar */
+        left: 0;
+        width: 100%;
+        height: 50px;
+        background: var(--card-bg);
+        border-bottom: 1px solid #e5e7eb;
+        z-index: 90;
+        display: flex;
+        justify-content: center; /* Center the inner content */
+    }
+
+    .sub-navbar-content {
+        width: 100%;
+        max-width: var(--container-width);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 20px;
+        position: relative;
+    }
+
+    /* Toggle Buttons Style */
+    .toggle-button {
+        padding: 8px 20px;
+        border-radius: 20px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background-color 0.3s, color 0.3s;
+        text-align: center;
+        position: relative;
+        z-index: 2; /* Ensures text is above the background effect */
+    }
+
+    .available-btn {
+        background-color: transparent;
+        color: var(--light-text);
+        border: 2px solid var(--light-text);
+        font-size: 14px;
+    }
+
+    .available-btn:hover {
+        border-color: var(--primary-color);
+        color: var(--primary-color);
+    }
+    
+    /* Active Tab Indicator (NEED) */
+    .need-heading {
+        font-size: 20px;
+        font-weight: 700;
+        color: var(--primary-color);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    /* 4. Main Marketplace Section */
+    .marketplace-section {
+        width: 100%;
+        max-width: var(--container-width);
+        margin: 20px auto 40px;
+        padding: 0 20px;
+    }
+
+    /* Need/Borrow Appeal Section */
+    .appeal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 30px;
+        border-bottom: 2px solid var(--secondary-color);
+        padding-bottom: 15px;
+    }
+
+    .appeal-header h2 {
+        font-size: 24px;
+        color: var(--dark-text);
+        font-weight: 700;
+        margin-right: 20px;
+    }
+
+    .post-need-btn {
+        background-color: var(--primary-color);
+        color: white;
+        padding: 10px 25px;
+        border: none;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background-color 0.2s, transform 0.1s;
+    }
+
+    .post-need-btn:hover {
+        background-color: var(--secondary-color);
+        transform: translateY(-1px);
+    }
+    
+    .appeal-text {
+        font-style: italic;
+        color: var(--light-text);
+        flex-grow: 1;
+        text-align: right;
+        margin-right: 10px;
+    }
+
+    /* 5. Borrow Request Cards Display */
+    .request-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 20px;
+    }
+
+    .request-card {
+        background: var(--card-bg);
+        border-radius: 10px;
+        box-shadow: var(--shadow-soft);
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        transition: transform 0.2s;
+    }
+
+    .request-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .request-card h3 {
+        color: var(--primary-color);
+        font-size: 18px;
+        font-weight: 700;
+        margin-bottom: 5px;
+    }
+
+    .request-card p {
+        font-size: 14px;
+        color: var(--light-text);
+        margin-bottom: 10px;
+        line-height: 1.4;
+    }
+
+    .request-card .borrower-info {
+        font-size: 12px;
+        color: var(--dark-text);
+        font-weight: 600;
+        border-top: 1px dashed #eee;
+        padding-top: 10px;
+        margin-top: 10px;
+        display: flex;
+        justify-content: space-between;
+    }
+    
+    /* 6. Form Styling (Modal-like) */
+    .need-form-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.6);
+        display: none; /* Hidden by default */
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+    }
+
+    .main-content {
+        width: 90%;
+        max-width: 500px;
+        background: var(--card-bg);
+        border-radius: 12px;
+        box-shadow: var(--shadow-soft);
+        padding: 30px;
+        transform: scale(0.9);
+        opacity: 0;
+        transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+
+    .need-form-container.active .main-content {
+        transform: scale(1);
+        opacity: 1;
+    }
+    
+    .main-content h1 {
+        font-size: 28px;
+        font-weight: 700;
+        margin-bottom: 5px;
+        color: var(--secondary-color);
+    }
+
+    .main-content .close-btn {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        font-size: 24px;
+        cursor: pointer;
+        color: var(--light-text);
+        transition: color 0.2s;
+    }
+
+    .main-content .close-btn:hover {
+        color: var(--dark-text);
+    }
+
+    /* Form specific styles */
+    .need-form label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: 600;
+        color: var(--dark-text);
+        font-size: 14px;
+    }
+    
+    .need-form input, .need-form textarea, .need-form button {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 15px;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        font-family: inherit;
+        font-size: 15px;
+    }
+
+    .need-form input:focus, .need-form textarea:focus {
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 3px rgba(0, 170, 255, 0.2);
+        outline: none;
+    }
+    
+    .need-form button {
+        padding: 12px;
+    }
+
+    /* Media Queries */
+    @media (max-width: 768px) {
+        .navbar {
+            padding: 0 15px;
+        }
+        .nav-links {
+            display: none;
+        }
+        .sub-navbar-content {
+            padding: 0 15px;
+        }
+        .appeal-header {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        .appeal-text {
+            text-align: left;
+            margin: 10px 0 15px;
+        }
+    }
+    
+</style>
+
+</head>
+<body>
+
+    <header class="navbar">
+        <div class="logo" onclick="openPage('rentit.html')">RENT IT</div>
+        <nav class="nav-links">
+            <a href="#">Dashboard</a>
+            <a href="#">Profile</a>
+            <a href="#">Support</a>
+        </nav>
+    </header>
+
+    <div class="sub-navbar">
+        <div class="sub-navbar-content">
+            <div class="toggle-button available-btn" onclick="openPage('./lend-borrow.html')">
+                Available
+            </div>
+            
+            <div class="need-heading">NEED / NEED TO BORROW</div>
+            
+            <div></div>
+        </div>
+    </div>
+
+    <div class="marketplace-section">
+        
+        <div class="appeal-header">
+            <button class="post-need-btn" onclick="toggleForm(true)">
+                <i class="fas fa-plus"></i> NEED TO BORROW
+            </button>
+
+            <p class="appeal-text">
+                <i class="fas fa-arrow-right"></i> Storm to appeal for your needs
+            </p>
+        </div>
+        
+        <div class="request-grid">
+            
+            <div class="request-card">
+                <h3><i class="fas fa-calculator"></i> Calculator Needed</h3>
+                <p>Ayush appealed for calculator.</p>
+                <div class="borrower-info">
+                    <span>Ayush M.</span>
+                    <span>For 5 days | Max: $3/day</span>
+                </div>
+            </div>
+            
+            <div class="request-card">
+                <h3><i class="fas fa-headphones"></i> Earphone Needed</h3>
+                <p>Shareef needed an earphone for online classes and music.</p>
+                <div class="borrower-info">
+                    <span>Shareef K.</span>
+                    <span>For 2 weeks | Max: $1/day</span>
+                </div>
+            </div>
+
+            <div class="request-card">
+                <h3><i class="fas fa-book"></i> Textbook Needed</h3>
+                <p>Looking for the latest edition of 'Intro to CS' for a month.</p>
+                <div class="borrower-info">
+                    <span>Sana H.</span>
+                    <span>For 30 days | Max: $0.5/day</span>
+                </div>
+            </div>
+
+            </div>
+
+    </div>
+
+    <div class="need-form-container" id="needFormContainer">
+        <div class="main-content">
+            <span class="close-btn" onclick="toggleForm(false)"><i class="fas fa-times"></i></span>
+            <h1><i class="fas fa-hand-holding-usd"></i> Post a Borrow Request</h1>
+            <p>Fill out the details for the item you need to borrow.</p>
+            
+            <form class="need-form">
+                <label for="item-name">Item Name</label>
+                <input type="text" id="item-name" placeholder="e.g., TI-84 Plus Calculator" required>
+                
+                <label for="duration">Required Duration (Days)</label>
+                <input type="number" id="duration" placeholder="e.g., 3 days" required min="1">
+                
+                <label for="max-price">Max Price willing to pay (per day)</label>
+                <input type="number" id="max-price" placeholder="e.g., $5" required min="1">
+
+                <label for="description">Item Description / Details</label>
+                <textarea id="description" rows="3" placeholder="I need it for my Calculus exam on Monday..."></textarea>
+                
+                <button type="submit">Submit Borrow Request</button>
+            </form>
+        </div>
+    </div>
+
+
+    <script>
+    /**
+     * Simulates opening a new page (e.g., the Available/Lend page).
+     * @param {string} page The filename or URL of the page to open.
+     */
+    function openPage(page){
+        // For this demo, we'll just alert. In a real app, this would be:
+        // window.location.href = page;
+        if(page === 'lend-borrow.html') {
+            alertBox('Transitioning to AVAILABLE/LEND page...', 'info');
+            // The described animation (vertical line from left) would be handled 
+            // by more complex CSS/JS in the 'lend-borrow.html' file when transitioning back to 'need.html'.
+        }
+    }
+    
+    /**
+     * Toggles the visibility of the Borrow Request form modal.
+     * @param {boolean} show If true, shows the form; otherwise, hides it.
+     */
+    function toggleForm(show) {
+        const formContainer = document.getElementById('needFormContainer');
+        if (show) {
+            formContainer.style.display = 'flex';
+            // Use a slight delay to allow the display:flex change to register before the transition
+            setTimeout(() => {
+                formContainer.classList.add('active');
+            }, 10);
+        } else {
+            formContainer.classList.remove('active');
+            setTimeout(() => {
+                formContainer.style.display = 'none';
+            }, 300); // Wait for the transition duration
+        }
+    }
+    
+    document.addEventListener('DOMContentLoaded', () => {
+        const needForm = document.querySelector('.need-form');
+        
+        // Prevent default form submission and show confirmation
+        needForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            // Simulate submission successful
+            alertBox('Borrow Request Submitted! Lenders will be notified.', 'success');
+            
+            // Clear form and hide the modal
+            needForm.reset();
+            toggleForm(false); 
+        });
+        
+        // Custom Alert Box function
+        function alertBox(message, type) {
+            const existingAlert = document.getElementById('customAlert');
+            if(existingAlert) existingAlert.remove();
+            
+            const alertDiv = document.createElement('div');
+            alertDiv.id = 'customAlert';
+            alertDiv.textContent = message;
+            
+            // Set styles based on type
+            let bgColor = '';
+            if (type === 'success') bgColor = '#4CAF50';
+            else if (type === 'info') bgColor = '#2196F3';
+            else bgColor = '#f44336';
+            
+            alertDiv.style.cssText = `
+                position: fixed;
+                top: 130px; /* Below the two navbars */
+                right: 20px;
+                padding: 15px 30px;
+                border-radius: 8px;
+                background-color: ${bgColor};
+                color: white;
+                font-weight: 600;
+                box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+                z-index: 2000;
+                transition: opacity 0.5s ease-in-out;
+                opacity: 1;
+            `;
+            document.body.appendChild(alertDiv);
+            
+            setTimeout(() => {
+                alertDiv.style.opacity = '0';
+                setTimeout(() => alertDiv.remove(), 500);
+            }, 3000);
+        }
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rent It | Student Exchange</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+    /* Light Aesthetic Theme */
+    :root {
+        --primary-blue: #4A90E2;
+        --primary-green: #50C878;
+        --accent-orange: #FF8C42;
+        --light-bg: #F8F9FA;
+        --card-bg: #FFFFFF;
+        --text-primary: #2C3E50;
+        --text-secondary: #6C757D;
+        --border-light: #E9ECEF;
+        --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.08);
+        --shadow-hover: 0 8px 30px rgba(74, 144, 226, 0.15);
+    }
+    
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+        background: linear-gradient(135deg, #F8F9FA 0%, #E9ECEF 100%);
+        color: var(--text-primary);
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding-top: 90px;
+        padding-bottom: 70px;
+        position: relative;
+    }
+
+    .container {
+        position: relative;
+        z-index: 1;
+        width: 100%;
+        max-width: 1200px;
+    }
+    
+    /* Navbar */
+    .navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 70px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 40px;
+        background: rgba(255, 255, 255, 0.9);
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid var(--border-light);
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        z-index: 100;
+    }
+
+    .logo {
+        font-size: 28px;
+        font-weight: 800;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: var(--primary-blue);
+    }
+    
+    .nav-links a {
+        color: var(--text-primary);
+        text-decoration: none;
+        margin-left: 30px;
+        font-weight: 500;
+        transition: color 0.3s ease;
+        padding: 8px 0;
+    }
+    
+    .nav-links a:hover {
+        color: var(--primary-blue);
+    }
+
+    /* Hero Section */
+    .hero-content {
+        text-align: center;
+        margin-bottom: 60px;
+        max-width: 900px;
+        padding: 0 20px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    h1 {
+        font-size: clamp(2.5rem, 6vw, 4.5rem);
+        font-weight: 800;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        margin-bottom: 20px;
+        color: var(--text-primary);
+        position: relative;
+    }
+
+    h1::after {
+        content: '';
+        position: absolute;
+        bottom: -12px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 80px;
+        height: 4px;
+        background: linear-gradient(90deg, var(--primary-blue), var(--primary-green));
+        border-radius: 2px;
+    }
+
+    .subtitle {
+        font-size: clamp(16px, 2vw, 18px);
+        font-weight: 400;
+        color: var(--text-secondary);
+        margin-top: 30px;
+        line-height: 1.8;
+    }
+
+    /* Card Container */
+    .box-container {
+        display: flex;
+        gap: 40px;
+        flex-wrap: wrap;
+        justify-content: center;
+        width: 100%;
+        margin: 0 auto;
+    }
+
+    .option-box {
+        width: 100%;
+        max-width: 420px;
+        height: 360px;
+        background: var(--card-bg);
+        border: 2px solid var(--border-light);
+        border-radius: 20px;
+        box-shadow: var(--shadow-soft);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        padding: 40px 30px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .option-box:hover {
+        transform: translateY(-8px);
+        border-color: var(--primary-blue);
+        box-shadow: var(--shadow-hover);
+    }
+
+    /* Topic-Relatable Animations */
+    /* Lend & Borrow - Exchange Animation */
+    .lend-borrow-box .icon-wrapper {
+        position: relative;
+        width: 120px;
+        height: 120px;
+        margin-bottom: 28px;
+    }
+
+    .lend-borrow-box .icon-wrapper::before,
+    .lend-borrow-box .icon-wrapper::after {
+        content: '';
+        position: absolute;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--primary-blue), var(--primary-green));
+        opacity: 0.2;
+    }
+
+    .lend-borrow-box .icon-wrapper::before {
+        left: 0;
+        animation: moveLeft 2s ease-in-out infinite;
+    }
+
+    .lend-borrow-box .icon-wrapper::after {
+        right: 0;
+        animation: moveRight 2s ease-in-out infinite;
+    }
+
+    @keyframes moveLeft {
+        0%, 100% { transform: translateX(0); }
+        50% { transform: translateX(35px); }
+    }
+
+    @keyframes moveRight {
+        0%, 100% { transform: translateX(0); }
+        50% { transform: translateX(-35px); }
+    }
+
+    .lend-borrow-box .card-icon {
+        position: relative;
+        z-index: 2;
+        font-size: 56px;
+        color: var(--primary-blue);
+        animation: exchangePulse 2s ease-in-out infinite;
+    }
+
+    @keyframes exchangePulse {
+        0%, 100% { transform: scale(1) rotate(0deg); }
+        25% { transform: scale(1.1) rotate(-10deg); }
+        75% { transform: scale(1.1) rotate(10deg); }
+    }
+
+    /* Buy & Sell - Transaction Animation */
+    .buy-sell-box .icon-wrapper {
+        position: relative;
+        width: 120px;
+        height: 120px;
+        margin-bottom: 28px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .buy-sell-box .card-icon {
+        font-size: 56px;
+        color: var(--primary-green);
+        position: relative;
+        z-index: 2;
+    }
+
+    .buy-sell-box .icon-wrapper::before,
+    .buy-sell-box .icon-wrapper::after {
+        content: '';
+        position: absolute;
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: var(--accent-orange);
+        opacity: 0;
+    }
+
+    .buy-sell-box .icon-wrapper::before {
+        top: 20px;
+        left: 20px;
+        animation: coinAppear 2.5s ease-in-out infinite;
+    }
+
+    .buy-sell-box .icon-wrapper::after {
+        bottom: 20px;
+        right: 20px;
+        animation: coinAppear 2.5s ease-in-out infinite 1.25s;
+    }
+
+    @keyframes coinAppear {
+        0%, 100% {
+            transform: scale(0) translateY(0);
+            opacity: 0;
+        }
+        20% {
+            opacity: 1;
+            transform: scale(1) translateY(-10px);
+        }
+        50% {
+            transform: scale(1.2) translateY(-20px);
+            opacity: 0.8;
+        }
+        80% {
+            opacity: 0.6;
+        }
+        100% {
+            transform: scale(0) translateY(-30px);
+            opacity: 0;
+        }
+    }
+
+    .buy-sell-box:hover .card-icon {
+        animation: transactionBounce 0.6s ease;
+    }
+
+    @keyframes transactionBounce {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.15); }
+    }
+    
+    .card-title {
+        font-size: 30px;
+        font-weight: 700;
+        letter-spacing: 1px;
+        margin-bottom: 16px;
+        color: var(--text-primary);
+    }
+
+    .card-description {
+        font-size: 15px;
+        font-weight: 400;
+        color: var(--text-secondary);
+        line-height: 1.7;
+        max-width: 320px;
+    }
+
+    .arrow-icon {
+        position: absolute;
+        bottom: 28px;
+        font-size: 20px;
+        color: var(--text-secondary);
+        transition: all 0.3s ease;
+    }
+
+    .option-box:hover .arrow-icon {
+        transform: translateX(8px);
+        color: var(--primary-blue);
+    }
+
+    /* Footer */
+    .footer {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 50px;
+        background: rgba(255, 255, 255, 0.9);
+        backdrop-filter: blur(10px);
+        border-top: 1px solid var(--border-light);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 14px;
+        color: var(--text-secondary);
+        box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+        z-index: 100;
+    }
+    
+    .footer-text a {
+        color: var(--primary-blue);
+        text-decoration: none;
+        margin-left: 5px;
+        font-weight: 500;
+        transition: color 0.3s ease;
+    }
+
+    .footer-text a:hover {
+        color: var(--primary-green);
+    }
+
+    /* Responsive Design */
+    @media (min-width: 768px) {
+        .option-box {
+            width: calc(50% - 20px);
+        }
+    }
+    
+    @media (max-width: 600px) {
+        .navbar {
+            padding: 0 20px;
+        }
+        .nav-links {
+            display: none;
+        }
+        .hero-content {
+            margin-bottom: 40px;
+        }
+        .option-box {
+            height: 320px;
+            max-width: 100%;
+        }
+        h1 {
+            letter-spacing: 2px;
+        }
+    }
+</style>
+
+</head>
+<body>
+
+    <div class="container">
+        <!-- Navigation Bar -->
+        <header class="navbar">
+            <div class="logo">RENT IT</div>
+            <nav class="nav-links">
+                <a href="#">Dashboard</a>
+                <a href="#">Profile</a>
+                <a href="#">Support</a>
+            </nav>
+        </header>
+
+        <!-- Hero Section -->
+        <div class="hero-content">
+    <h1>RENT IT</h1>
+            <p class="subtitle">
+                Your university's dedicated hub for student resource exchange.<br>
+                Trade textbooks, electronics, and essentials effortlessly.
+            </p>
+        </div>
+
+        <!-- Main Options Container -->
+        <div class="box-container">
+            
+            <!-- Lend & Borrow Card -->
+            <div class="option-box lend-borrow-box" onclick="openPage('lend-borrow.html')">
+                <div class="icon-wrapper">
+                    <i class="fas fa-exchange-alt card-icon"></i>
+                </div>
+                <div class="card-title">Lend & Borrow</div>
+                <p class="card-description">Short-term sharing of textbooks, tools, and equipment. Keep track of returns easily.</p>
+                <i class="fas fa-arrow-right arrow-icon"></i>
+            </div>
+            
+            <!-- Buy & Sell Card -->
+            <div class="option-box buy-sell-box" onclick="openPage('buy-sell.html')">
+                <div class="icon-wrapper">
+                    <i class="fas fa-shopping-bag card-icon"></i>
+                </div>
+                <div class="card-title">Buy & Sell</div>
+                <p class="card-description">Permanent exchange for furniture, electronics, and long-term items. List securely.</p>
+                <i class="fas fa-arrow-right arrow-icon"></i>
+            </div>
+            
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-text">
+            &copy; 2024 RENT IT. Built for students, by students. <a href="#">Privacy</a> | <a href="#">Terms</a>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+<script>
+function openPage(page){
+    window.location.href = page;
+}
+</script>
+
+</body>
+</html>

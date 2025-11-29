@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lend & Borrow Marketplace</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+<style>
+    /* 1. Global Reset and Base Styling - Custom Theme */
+    :root {
+        --primary-color: #3f51b5; /* Deeper Blue */
+        --secondary-color: #303f9f; /* Even Deeper Blue */
+        --light-bg: #e8eaf6; /* Lighter Lavender Blue Background */
+        --card-bg: #ffffff; /* Pure White Card */
+        --dark-text: #212121; /* Darker Grey Text */
+        --light-text: #757575; /* Medium Grey Text */
+        --shadow-soft: 0 2px 5px rgba(0, 0, 0, 0.1);
+        --shadow-hover: 0 4px 10px rgba(63, 81, 181, 0.2); /* Shadow with primary color tint */
+    }
+    
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+        background-color: var(--light-bg);
+        color: var(--dark-text);
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        padding-top: 70px; /* Space for fixed navbar */
+        padding-bottom: 50px; /* Space for fixed footer */
+    }
+    
+    /* 2. Navbar Styling */
+    .navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 70px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 40px;
+        background: var(--card-bg);
+        box-shadow: var(--shadow-soft);
+        z-index: 100;
+    }
+
+    .logo {
+        font-size: 28px;
+        font-weight: 900;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        cursor: pointer;
+    }
+    
+    .nav-links a {
+        color: var(--dark-text);
+        text-decoration: none;
+        margin-left: 30px;
+        font-weight: 500;
+        transition: color 0.2s;
+        padding: 5px 0;
+        border-bottom: 2px solid transparent;
+    }
+    
+    .nav-links a:hover {
+        color: var(--primary-color);
+        border-color: var(--primary-color);
+    }
+
+    /* 3. Sub-Navbar/Header */
+    .sub-header {
+        width: 100%;
+        padding: 15px 40px;
+        background: var(--card-bg);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: sticky;
+        top: 70px;
+        z-index: 90;
+    }
+
+    .sub-header h2 {
+        font-size: 24px;
+        font-weight: 700;
+        color: var(--dark-text);
+    }
+
+    .need-btn {
+        background-color: #ff9800; /* Orange color from the screenshot */
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 8px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background-color 0.2s, transform 0.1s;
+        box-shadow: 0 4px 10px rgba(255, 152, 0, 0.3);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .need-btn:hover {
+        background-color: #fb8c00; /* Darker orange */
+        box-shadow: 0 4px 15px rgba(251, 140, 0, 0.4);
+    }
+
+    /* 4. Item Grid Layout */
+    .main-content {
+        padding: 40px;
+        flex-grow: 1;
+        width: 100%;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .item-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 30px;
+    }
+
+    /* 5. Item Card Styling */
+    .item-card {
+        background: var(--card-bg);
+        border-radius: 12px;
+        box-shadow: var(--shadow-soft);
+        overflow: hidden;
+        transition: transform 0.3s, box-shadow 0.3s;
+        cursor: pointer;
+        border: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    .item-card:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--shadow-hover);
+        border-color: var(--primary-color);
+    }
+
+    .item-image-placeholder {
+        width: 100%;
+        height: 180px;
+        background-color: #f7f7f7; /* Subtle card header background */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 40px;
+        color: var(--primary-color);
+    }
+    
+    /* Specific image placeholder colors from screenshot */
+    .item-card:nth-child(1) .item-image-placeholder { background-color: #fce4ec; color: #ad1457; } /* Pink/Maroon for Calculator */
+    .item-card:nth-child(2) .item-image-placeholder { background-color: #e3f2fd; color: #1976d2; } /* Light Blue/Blue for Textbook */
+    .item-card:nth-child(3) .item-image-placeholder { background-color: #fffde7; color: #f9a825; } /* Yellow/Orange for Powerbank */
+    .item-card:nth-child(4) .item-image-placeholder { background-color: #e8f5e9; color: #388e3c; } /* Light Green/Green for Tripod */
+    .item-card:nth-child(5) .item-image-placeholder { background-color: #fbe9e7; color: #ff5722; } /* Light Orange/Deep Orange for Clicker */
+    .item-card:nth-child(6) .item-image-placeholder { background-color: #f5f5f5; color: #607d8b; } /* Grey/Blue-Grey for Tool Set */
+    
+    .item-details {
+        padding: 15px;
+    }
+
+    .item-details h3 {
+        font-size: 18px;
+        margin-bottom: 5px;
+        font-weight: 600;
+    }
+
+    .item-details p {
+        font-size: 14px;
+        color: var(--light-text);
+        margin-bottom: 10px;
+    }
+
+    .item-price {
+        font-size: 20px;
+        font-weight: 700;
+        color: var(--secondary-color);
+    }
+    
+    .item-price span {
+        font-size: 14px;
+        font-weight: 400;
+        color: var(--light-text);
+    }
+    
+    /* 6. NEED Sidebar Styling */
+    .need-sidebar {
+        position: fixed;
+        top: 0;
+        right: 0;
+        width: 100vw; /* Full width */
+        height: 100vh; /* Full height */
+        background: var(--card-bg);
+        box-shadow: none; /* No side shadow for full screen */
+        z-index: 1000;
+        transform: translateX(100%); /* Start off-screen to the right */
+        transition: transform 0.4s ease-in-out; /* Slide animation */
+        display: flex; 
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 0; 
+    }
+
+    .need-sidebar.open {
+        transform: translateX(0); /* Slide in */
+    }
+
+    .loading-message {
+        font-size: 32px;
+        font-weight: 700;
+        color: var(--primary-color);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+        animation: pulse 1.5s infinite alternate;
+    }
+    
+    @keyframes pulse {
+        from { opacity: 0.8; transform: scale(1); }
+        to { opacity: 1; transform: scale(1.05); }
+    }
+
+    /* 6.5 Modal Styling (NEW) */
+    .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.6);
+        display: none; /* Hidden by default */
+        align-items: center;
+        justify-content: center;
+        z-index: 2000;
+        opacity: 0;
+        transition: opacity 0.3s ease-in-out;
+    }
+
+    .modal-overlay.active {
+        display: flex;
+        opacity: 1;
+    }
+
+    .modal-content {
+        background: var(--card-bg);
+        border-radius: 15px;
+        width: 90%;
+        max-width: 950px;
+        padding: 30px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        position: relative;
+        transform: scale(0.95);
+        transition: transform 0.3s ease-in-out;
+    }
+    
+    .modal-overlay.active .modal-content {
+        transform: scale(1);
+    }
+
+    .close-btn {
+        position: absolute;
+        top: 15px;
+        right: 20px;
+        font-size: 30px;
+        background: none;
+        border: none;
+        color: var(--light-text);
+        cursor: pointer;
+        transition: color 0.2s;
+    }
+
+    .close-btn:hover {
+        color: var(--dark-text);
+    }
+    
+    .modal-grid {
+        display: grid;
+        grid-template-columns: 2fr 1fr; /* Main detail on left, info on right (as per sketch) */
+        gap: 30px;
+    }
+
+    .modal-image-placeholder {
+        width: 100%;
+        height: 300px;
+        background-color: #f7f7f7;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--primary-color);
+        margin-bottom: 20px;
+    }
+    
+    .modal-description h3 {
+        font-size: 28px;
+        margin-bottom: 5px;
+    }
+    
+    .modal-price-tag {
+        font-size: 24px;
+        font-weight: 700;
+        color: var(--secondary-color);
+        margin-bottom: 20px;
+    }
+    
+    .modal-full-description {
+        line-height: 1.6;
+        color: var(--dark-text);
+        font-size: 16px;
+    }
+
+    /* Lender Info Styles */
+    .modal-side-info h4 {
+        font-size: 18px;
+        margin-bottom: 15px;
+        padding-bottom: 5px;
+        border-bottom: 2px solid #eee;
+    }
+    
+    .lender-profile {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 20px;
+    }
+
+    .avatar-placeholder {
+        font-size: 50px;
+        color: var(--primary-color);
+    }
+    
+    .lender-name {
+        font-size: 18px;
+        font-weight: 600;
+        margin-bottom: 2px;
+    }
+
+    .lender-details p {
+        font-size: 14px;
+        color: var(--light-text);
+    }
+    
+    .lender-details i {
+        margin-right: 5px;
+    }
+
+    .chat-btn {
+        width: 100%;
+        background-color: #4caf50; /* Green for chat/contact */
+        color: white;
+        border: none;
+        padding: 12px;
+        border-radius: 8px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background-color 0.2s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        margin-bottom: 25px;
+    }
+
+    .chat-btn:hover {
+        background-color: #388e3c;
+    }
+    
+    .modal-extra-info ul {
+        list-style: none;
+    }
+    
+    .modal-extra-info li {
+        font-size: 14px;
+        color: var(--dark-text);
+        padding: 3px 0;
+    }
+
+    /* 7. Footer Styling */
+    .footer {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 50px;
+        background: var(--card-bg);
+        border-top: 1px solid rgba(0, 0, 0, 0.05);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 14px;
+        color: var(--light-text);
+        box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+        z-index: 95;
+    }
+    
+    .footer-text a {
+        color: var(--primary-color);
+        text-decoration: none;
+        margin-left: 5px;
+        font-weight: 500;
+    }
+
+    /* Media Queries */
+    @media (max-width: 768px) {
+        .navbar, .sub-header {
+            padding: 0 20px;
+        }
+        .nav-links {
+            display: none;
+        }
+        .main-content {
+            padding: 20px;
+        }
+        .modal-grid {
+            grid-template-columns: 1fr; /* Stack on mobile */
+        }
+        
+        .modal-content {
+            padding: 20px;
+            width: 95%;
+            max-height: 90vh; /* Prevent modal from running off screen */
+            overflow-y: auto;
+        }
+        
+        .modal-image-placeholder {
+            height: 200px;
+        }
+    }
+    
+</style>
+
+</head>
+<body>
+
+    <header class="navbar">
+        <div class="logo" onclick="openPage('rentit.html')">RENT IT</div>
+        <nav class="nav-links">
+            <a href="#">Dashboard</a>
+            <a href="#">Profile</a>
+            <a href="#">Support</a>
+        </nav>
+    </header>
+
+    <div class="sub-header">
+        <h2>Available for Lending</h2>
+        <button class="need-btn" id="openNeedBtn">
+            <i class="fas fa-hand-holding-usd"></i> NEED (Borrow Request)
+        </button>
+    </div>
+
+    <div class="main-content">
+        <div class="item-grid">
+            <div class="item-card" data-name="Scientific Calculator" data-price="$5 <span>/ day</span>">
+                <div class="item-image-placeholder">
+                    <i class="fas fa-calculator"></i>
+                </div>
+                <div class="item-details">
+                    <h3>Scientific Calculator</h3>
+                    <p>For Engineering & Maths</p>
+                    <div class="item-price">
+                        $5 <span>/ day</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="item-card" data-name="Intro to Python Textbook" data-price="$10 <span>/ week</span>">
+                <div class="item-image-placeholder">
+                    <i class="fas fa-book"></i>
+                </div>
+                <div class="item-details">
+                    <h3>Intro to Python Textbook</h3>
+                    <p>Computer Science (Spring 2024)</p>
+                    <div class="item-price">
+                        $10 <span>/ week</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="item-card" data-name="20,000mAh Powerbank" data-price="$3 <span>/ day</span>">
+                <div class="item-image-placeholder">
+                    <i class="fas fa-battery-half"></i>
+                </div>
+                <div class="item-details">
+                    <h3>20,000mAh Powerbank</h3>
+                    <p>Keep your devices charged!</p>
+                    <div class="item-price">
+                        $3 <span>/ day</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="item-card" data-name="Camera Tripod (72 inch)" data-price="$5 <span>/ day</span>">
+                <div class="item-image-placeholder">
+                    <i class="fas fa-camera"></i>
+                </div>
+                <div class="item-details">
+                    <h3>Camera Tripod (72 inch)</h3>
+                    <p>Photography or Presentation use</p>
+                    <div class="item-price">
+                        $5 <span>/ day</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="item-card" data-name="Presentation Clicker" data-price="$3 <span>/ day</span>">
+                <div class="item-image-placeholder">
+                    <i class="fas fa-marker"></i>
+                </div>
+                <div class="item-details">
+                    <h3>Presentation Clicker</h3>
+                    <p>Wireless USB slide controller</p>
+                    <div class="item-price">
+                        $3 <span>/ day</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="item-card" data-name="Basic Tool Set" data-price="$4 <span>/ day</span>">
+                <div class="item-image-placeholder">
+                    <i class="fas fa-wrench"></i>
+                </div>
+                <div class="item-details">
+                    <h3>Basic Tool Set</h3>
+                    <p>Small repairs and assembly</p>
+                    <div class="item-price">
+                        $4 <span>/ day</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="itemDetailModal">
+        <div class="modal-content">
+            <button class="close-btn" id="closeModalBtn">&times;</button>
+            <div class="modal-grid">
+                <div class="modal-main-detail">
+                    <div class="modal-image-placeholder">
+                        <i class="fas fa-image fa-5x"></i>
+                    </div>
+                    <div class="modal-description">
+                        <h3 id="modalItemName">Item Name Placeholder</h3>
+                        <p class="modal-price-tag" id="modalItemPrice">$5 <span>/ day</span></p>
+                        <p class="modal-full-description">
+                            This is a placeholder for the full, detailed description of the item. It would include specifics like model number, condition, ideal use case, and any terms of lending (e.g., return policy, required collateral).
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="modal-side-info">
+                    <h4>Lender Information</h4>
+                    <div class="lender-profile">
+                        <div class="avatar-placeholder">
+                            <i class="fas fa-user-circle"></i>
+                        </div>
+                        <div class="lender-details">
+                            <p class="lender-name">Alex M.</p>
+                            <p class="lender-location"><i class="fas fa-map-marker-alt"></i> On Campus</p>
+                            <p class="lender-rating"><i class="fas fa-star"></i> 4.8 (12 rentals)</p>
+                        </div>
+                    </div>
+                    <button class="chat-btn">
+                        <i class="fas fa-comment-dots"></i> Chat with Lender
+                    </button>
+                    
+                    <div class="modal-extra-info">
+                        <h4>Rental Terms</h4>
+                        <ul>
+                            <li>Minimum Rental: 1 day</li>
+                            <li>Late Fee: $1/hour</li>
+                            <li>Security Deposit: $20</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="need-sidebar" id="needSidebar">
+        <div class="loading-message">
+            <i class="fas fa-arrow-right fa-3x fa-spin"></i> 
+            Moving to Borrow Request Form...
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-text">
+            &copy; 2024 RENT IT. Built for students, by students. <a href="#">Privacy</a> | <a href="#">Terms</a>
+        </div>
+    </footer>
+
+    <script>
+    /**
+     * Opens a new page or returns to the landing page.
+     * @param {string} page The filename or URL of the page to open.
+     */
+    function openPage(page){
+        window.location.href = page;
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const sidebar = document.getElementById('needSidebar');
+        const openBtn = document.getElementById('openNeedBtn');
+        
+        // Modal elements
+        const itemCards = document.querySelectorAll('.item-card');
+        const modal = document.getElementById('itemDetailModal');
+        const closeModalBtn = document.getElementById('closeModalBtn');
+        const modalItemName = document.getElementById('modalItemName');
+        const modalItemPrice = document.getElementById('modalItemPrice');
+        
+        // --- Borrow Request Sidebar Logic ---
+        openBtn.addEventListener('click', () => {
+            sidebar.classList.add('open');
+            setTimeout(() => {
+                // Navigate to the new page after the transition completes
+                window.location.href = 'need-request.html'; 
+            }, 400); 
+        });
+        
+        // --- Product Detail Modal Logic ---
+
+        /**
+         * Opens the modal and populates it with item data.
+         * @param {string} name - The name of the product.
+         * @param {string} priceHtml - The HTML formatted price of the product.
+         */
+        function openItemModal(name, priceHtml) {
+            // Update the modal content with data from the clicked card
+            modalItemName.textContent = name;
+            modalItemPrice.innerHTML = priceHtml;
+            
+            // Show the modal
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden'; // Prevent background scrolling
+        }
+
+        // Add event listeners to all item cards
+        itemCards.forEach(card => {
+            card.addEventListener('click', () => {
+                // Get data from the card's data attributes
+                const itemName = card.getAttribute('data-name');
+                const itemPriceHtml = card.getAttribute('data-price');
+
+                openItemModal(itemName, itemPriceHtml);
+            });
+        });
+
+        // Close modal when the 'X' button is clicked
+        closeModalBtn.addEventListener('click', () => {
+            modal.classList.remove('active');
+            document.body.style.overflow = ''; // Restore background scrolling
+        });
+        
+        // Close modal when clicking outside the content (on the overlay)
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.classList.remove('active');
+                document.body.style.overflow = ''; // Restore background scrolling
+            }
+        });
+        
+    });
+</script>
+
+</body>
+</html>
