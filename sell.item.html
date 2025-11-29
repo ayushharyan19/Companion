@@ -383,7 +383,7 @@
         
         <div class="list-header">
             <h2>Marketplace Listings</h2>
-            <button class="post-btn" onclick="toggleForm(true)">
+            <button class="post-btn" onclick="toggleFormSell(true)">
                 <i class="fas fa-tag"></i> POST ITEM FOR SALE
             </button>
         </div>
@@ -446,7 +446,7 @@
 
     <div class="sell-form-container" id="sellFormContainer">
         <div class="form-content">
-            <span class="close-btn" onclick="toggleForm(false)"><i class="fas fa-times"></i></span>
+            <span class="close-btn" onclick="toggleFormSell(false)"><i class="fas fa-times"></i></span>
             <h1><i class="fas fa-tag"></i> List Your Item for Sale</h1>
             <p>Fill out the details for the permanent item you want to sell.</p>
             
@@ -484,79 +484,6 @@
         </div>
     </footer>
 
-    <script>
-    function openPage(page){
-        window.location.href = page;
-    }
-    
-    /**
-     * Toggles the visibility of the Sell Item form modal.
-     * @param {boolean} show If true, shows the form; otherwise, hides it.
-     */
-    function toggleForm(show) {
-        const formContainer = document.getElementById('sellFormContainer');
-        if (show) {
-            formContainer.style.display = 'flex';
-            setTimeout(() => {
-                formContainer.classList.add('active');
-            }, 10);
-        } else {
-            formContainer.classList.remove('active');
-            setTimeout(() => {
-                formContainer.style.display = 'none';
-            }, 300); // Wait for the transition duration
-        }
-    }
-    
-    document.addEventListener('DOMContentLoaded', () => {
-        const sellForm = document.querySelector('.sell-form');
-        
-        sellForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            
-            alertBox('Item Listing Submitted! Buyers will be able to see it.', 'success');
-            
-            sellForm.reset();
-            toggleForm(false); 
-        });
-        
-        // Custom Alert Box function (Copied from Need/Lend files)
-        function alertBox(message, type) {
-            const existingAlert = document.getElementById('customAlert');
-            if(existingAlert) existingAlert.remove();
-            
-            const alertDiv = document.createElement('div');
-            alertDiv.id = 'customAlert';
-            alertDiv.textContent = message;
-            
-            let bgColor = '';
-            if (type === 'success') bgColor = '#4CAF50';
-            else if (type === 'info') bgColor = '#2196F3';
-            else bgColor = '#f44336';
-            
-            alertDiv.style.cssText = `
-                position: fixed;
-                top: 130px; 
-                right: 20px;
-                padding: 15px 30px;
-                border-radius: 8px;
-                background-color: ${bgColor};
-                color: white;
-                font-weight: 600;
-                box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-                z-index: 2000;
-                transition: opacity 0.5s ease-in-out;
-                opacity: 1;
-            `;
-            document.body.appendChild(alertDiv);
-            
-            setTimeout(() => {
-                alertDiv.style.opacity = '0';
-                setTimeout(() => alertDiv.remove(), 500);
-            }, 3000);
-        }
-    });
-</script>
-
+<script src="script.js"></script>
 </body>
 </html>
