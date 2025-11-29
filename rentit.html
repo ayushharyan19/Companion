@@ -20,6 +20,9 @@
         --border-light: #E9ECEF;
         --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.08);
         --shadow-hover: 0 8px 30px rgba(74, 144, 226, 0.15);
+        /* New Glass Blue Color for Button */
+        --glass-blue: rgba(74, 144, 226, 0.8); /* Primary Blue with transparency */
+        --glass-blue-hover: rgba(74, 144, 226, 1);
     }
     
     * {
@@ -74,10 +77,15 @@
         color: var(--primary-blue);
     }
     
+    .nav-links {
+        display: flex;
+        align-items: center; /* Align links and button */
+        gap: 30px; /* Space between links and button container */
+    }
+
     .nav-links a {
         color: var(--text-primary);
         text-decoration: none;
-        margin-left: 30px;
         font-weight: 500;
         transition: color 0.3s ease;
         padding: 8px 0;
@@ -87,6 +95,34 @@
         color: var(--primary-blue);
     }
 
+    /* Button Container to keep logo on the left and links/button on the right */
+    .nav-right {
+        display: flex;
+        align-items: center;
+        gap: 30px; /* Space between links and the button */
+    }
+    
+    /* NEW: Sign Up Button Styling (Glass Blue) */
+    .signup-btn {
+        background-color: var(--glass-blue);
+        color: var(--card-bg); /* White text */
+        border: none;
+        padding: 8px 18px;
+        border-radius: 20px;
+        font-weight: 600;
+        font-size: 15px;
+        cursor: pointer;
+        transition: background-color 0.3s ease, transform 0.2s, box-shadow 0.3s;
+        box-shadow: 0 4px 15px rgba(74, 144, 226, 0.4);
+        margin-left: 20px; /* Space from the last nav link */
+    }
+
+    .signup-btn:hover {
+        background-color: var(--glass-blue-hover);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(74, 144, 226, 0.5);
+    }
+    
     /* Hero Section */
     .hero-content {
         text-align: center;
@@ -361,7 +397,15 @@
             padding: 0 20px;
         }
         .nav-links {
-            display: none;
+            /* Keep links visible on mobile by default, but let the .nav-right manage them */
+            display: flex;
+            align-items: center;
+        }
+        .nav-right a {
+            display: none; /* Hide standard links on small screens */
+        }
+        .signup-btn {
+            margin-left: 0;
         }
         .hero-content {
             margin-bottom: 40px;
@@ -380,17 +424,20 @@
 <body>
 
     <div class="container">
-        <!-- Navigation Bar -->
         <header class="navbar">
             <div class="logo">RENT IT</div>
-            <nav class="nav-links">
-                <a href="#">Dashboard</a>
-                <a href="#">Profile</a>
-                <a href="#">Support</a>
-            </nav>
+            <div class="nav-right"> 
+                <nav class="nav-links">
+                    <a href="#">Dashboard</a>
+                    <a href="#">Profile</a>
+                    <a href="#">Support</a>
+                </nav>
+                <button class="signup-btn" onclick="openPage('signup.html')">
+                    <i class="fas fa-user-plus"></i> Sign Up
+                </button>
+            </div>
         </header>
 
-        <!-- Hero Section -->
         <div class="hero-content">
     <h1>RENT IT</h1>
             <p class="subtitle">
@@ -399,10 +446,8 @@
             </p>
         </div>
 
-        <!-- Main Options Container -->
         <div class="box-container">
             
-            <!-- Lend & Borrow Card -->
             <div class="option-box lend-borrow-box" onclick="openPage('lend-borrow.html')">
                 <div class="icon-wrapper">
                     <i class="fas fa-exchange-alt card-icon"></i>
@@ -412,7 +457,6 @@
                 <i class="fas fa-arrow-right arrow-icon"></i>
             </div>
             
-            <!-- Buy & Sell Card -->
             <div class="option-box buy-sell-box" onclick="openPage('buy-sell.html')">
                 <div class="icon-wrapper">
                     <i class="fas fa-shopping-bag card-icon"></i>
@@ -425,19 +469,12 @@
         </div>
     </div>
 
-    <!-- Footer -->
     <footer class="footer">
         <div class="footer-text">
             &copy; 2024 RENT IT. Built for students, by students. <a href="#">Privacy</a> | <a href="#">Terms</a>
         </div>
     </footer>
 
-    <!-- JavaScript -->
-<script>
-function openPage(page){
-    window.location.href = page;
-}
-</script>
-
+<script src="script.js"></script>
 </body>
 </html>
